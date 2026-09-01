@@ -549,17 +549,18 @@ h2 {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 5;
+  /* Dialogs must always sit above the persistent home-screen dock. */
+  z-index: 20;
   display: grid;
-  place-items: end center;
+  place-items: center;
   padding: 10px;
   background: #080604bd;
 }
 .game-modal {
   width: min(640px, 100%);
-  max-height: min(720px, 94vh);
+  max-height: calc(100% - 18px);
   overflow: auto;
-  padding: 22px;
+  padding: 16px;
   border: 3px solid #263b4c;
   border-radius: 18px;
   color: #263443;
@@ -1660,4 +1661,47 @@ h2 {
   .notice {
     display: none;
   }
+}
+
+/* Transparent replacement sprites: no baked canvas, blend mode, or CSS masking. */
+.hero-preview img,
+.animated-knight,
+.paper-doll > img {
+  mix-blend-mode: normal !important;
+  filter: drop-shadow(0 7px 5px #0b2827aa) !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+.enemy-art {
+  background-image: url("./assets/enemy-cutouts.png") !important;
+  background-size: 100% 600% !important;
+  background-position: center top;
+  mix-blend-mode: normal;
+  filter: drop-shadow(0 7px 5px #0b2827aa);
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.enemy-art-greywatch-archer {
+  background-position: center 20%;
+}
+.enemy-art-greywatch-wolf,
+.enemy-art-wilds-2 {
+  background-position: center 40%;
+}
+.enemy-art-wilds-3,
+.enemy-art-wilds-4,
+.enemy-art-mythic-biomes-2,
+.enemy-art-mythic-biomes-4 {
+  background-position: center 60%;
+}
+.enemy-art-greywatch-roderick,
+.enemy-art-wilds-1,
+.enemy-art-wilds-5,
+.enemy-art-mythic-biomes-0,
+.enemy-art-mythic-biomes-3 {
+  background-position: center 80%;
+}
+.enemy-art-mythic,
+.enemy-art-mythic-biomes-5 {
+  background-position: center bottom;
 }

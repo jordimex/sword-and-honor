@@ -17,7 +17,7 @@ import type {
   SkillId,
   Specialization,
 } from "@/shared/game/types";
-import knightArtwork from "@/client/assets/knight-hero.png";
+import knightArtwork from "@/client/assets/knight-cutout.png";
 
 type Modal = "knight" | "combat" | "loot" | "gear" | "skills" | "map" | null;
 const biomes = [
