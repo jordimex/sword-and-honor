@@ -617,28 +617,59 @@ h2 {
   cursor: not-allowed;
 }
 .battle-art {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: end;
-  min-height: 185px;
-  margin: 8px 0 12px;
+  min-height: 218px;
+  margin: 6px 0 10px;
   overflow: hidden;
-  border: 3px solid #4d5a4a;
-  border-radius: 14px;
-  background: radial-gradient(
-      ellipse at 50% 98%,
-      #33464a 0 26%,
-      transparent 27%
+  border: 4px solid #29454a;
+  border-radius: 13px;
+  background: linear-gradient(
+      180deg,
+      #071c2633 0%,
+      transparent 43%,
+      #071c2655 100%
     ),
-    radial-gradient(circle at 16% 18%, #fff3a8 0 3px, transparent 4px),
-    linear-gradient(180deg, #6ab5c6, #d7eff0 48%, #79a192 49%, #4c7367);
+    url("./assets/greywatch-scene.png") center 58% / cover no-repeat;
+  box-shadow: inset 0 0 0 2px #e8d5a766, inset 0 -30px 30px #071b2744;
+}
+.battle-art::after {
+  position: absolute;
+  right: 16%;
+  bottom: 11px;
+  left: 16%;
+  height: 11px;
+  border-radius: 50%;
+  background: #0e29376b;
+  content: "";
+  filter: blur(2px);
+}
+.battle-art::before {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(
+    90deg,
+    #0a26321c,
+    transparent 34%,
+    transparent 66%,
+    #0a26321c
+  );
+  content: "";
 }
 .animated-knight {
-  width: 145px;
-  max-height: 180px;
+  position: relative;
+  z-index: 1;
+  width: 164px;
+  max-height: 210px;
   object-fit: contain;
   justify-self: center;
-  margin-bottom: -25px;
+  margin-bottom: -16px;
   filter: brightness(0.86) contrast(1.55) saturate(1.2)
     drop-shadow(0 8px 6px #152225bb);
   mix-blend-mode: multiply;
@@ -655,16 +686,18 @@ h2 {
   animation: knight-idle 3.4s ease-in-out infinite;
 }
 .battle-art .enemy-art {
-  width: 138px;
-  height: 164px;
-  margin-bottom: 0;
+  position: relative;
+  z-index: 1;
+  width: 164px;
+  height: 190px;
+  margin-bottom: -6px;
   object-fit: contain;
 }
 .battle-active .animated-knight {
-  animation: knight-strike 1.24s ease-in-out infinite;
+  animation: knight-strike 1.35s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 .battle-active .enemy-art {
-  animation: enemy-brace 1.24s ease-in-out infinite;
+  animation: enemy-brace 1.35s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 .battle-status {
   margin: 10px 0 0;
@@ -677,13 +710,16 @@ h2 {
 .duel-heading {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin: 12px 0;
+  gap: 7px;
+  margin: 8px 0;
 }
 .duel-heading div {
-  padding: 10px;
-  border: 2px solid #9a8564;
-  border-radius: 12px;
+  padding: 7px 9px;
+  border: 2px solid #385861;
+  border-radius: 9px;
+  color: #f7f0d4;
+  background: linear-gradient(135deg, #173441, #1e2c36);
+  box-shadow: inset 0 1px #ffffff18, 0 2px #0b1c25;
 }
 .duel-heading span,
 .duel-heading strong {
@@ -691,11 +727,12 @@ h2 {
   font-size: 0.78rem;
 }
 .duel-heading strong {
-  margin: 5px 0;
+  margin: 3px 0 4px;
+  color: #fff6ca;
 }
 .duel-heading i {
   display: block;
-  height: 7px;
+  height: 8px;
   overflow: hidden;
   border-radius: 99px;
   background: #0007;
@@ -703,17 +740,17 @@ h2 {
 .duel-heading b {
   display: block;
   height: 100%;
-  background: linear-gradient(90deg, #d85d47, #e9bb54);
+  background: linear-gradient(90deg, #e75952, #ffd45d);
 }
 .battle-log {
-  min-height: 70px;
-  margin: 10px 0;
-  padding: 10px;
-  border-radius: 10px;
-  border: 2px solid #a38d67;
-  background: #fff5d9;
-  color: #364650;
-  font-size: 0.8rem;
+  min-height: 61px;
+  margin: 8px 0;
+  padding: 8px 10px;
+  border: 2px solid #3e5960;
+  border-radius: 9px;
+  background: #102831e8;
+  color: #eaf2d9;
+  font-size: 0.73rem;
 }
 .battle-log p {
   margin-bottom: 4px;
@@ -1216,27 +1253,29 @@ h2 {
 }
 @keyframes knight-strike {
   0%,
+  18%,
   100% {
     transform: translateX(0) translateY(0) rotate(-1deg);
   }
-  42% {
-    transform: translateX(16px) translateY(-7px) rotate(5deg);
+  43% {
+    transform: translateX(30px) translateY(-11px) rotate(7deg);
   }
-  58% {
-    transform: translateX(4px) translateY(0) rotate(0deg);
+  60% {
+    transform: translateX(11px) translateY(-2px) rotate(1deg);
   }
 }
 @keyframes enemy-brace {
   0%,
+  24%,
   100% {
     transform: translateX(0) scale(1);
   }
-  46% {
-    transform: translateX(-8px) scale(1.04);
-    filter: drop-shadow(0 0 10px #e9bb54);
+  44% {
+    transform: translateX(-18px) translateY(4px) scale(0.97);
+    filter: drop-shadow(0 0 12px #ffcb61);
   }
-  60% {
-    transform: translateX(2px) scale(0.99);
+  63% {
+    transform: translateX(-3px) scale(1.015);
   }
 }
 @media (min-width: 471px) {
