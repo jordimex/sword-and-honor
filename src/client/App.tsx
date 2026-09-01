@@ -11,6 +11,7 @@ import {
 } from "@/shared/game/services";
 import type {
   CombatState,
+  EquipmentSlot,
   ItemDefinition,
   PlayerState,
   SkillId,
@@ -32,6 +33,17 @@ const choices: Array<{ id: Specialization; label: string; detail: string }> = [
   { id: "witch", label: "Witch", detail: "Wands and magic" },
 ];
 const comingClasses = ["Barbarian", "Rogue"];
+const loadoutSlots: Array<{ slot: EquipmentSlot; label: string }> = [
+  { slot: "weapon", label: "Weapon" },
+  { slot: "helmet", label: "Helmet" },
+  { slot: "chest", label: "Armor" },
+  { slot: "offhand", label: "Offhand" },
+  { slot: "gauntlets", label: "Gloves" },
+  { slot: "boots", label: "Boots" },
+  { slot: "cloak", label: "Cloak" },
+  { slot: "ring1", label: "Ring" },
+  { slot: "amulet", label: "Amulet" },
+];
 const skills: Array<{
   id: SkillId;
   label: string;
@@ -262,6 +274,13 @@ export function App() {
     setPlayer(EquipmentService.equip(player, item.id));
     setSelectedGear(item);
     setNotice(`${item.name} equipped.`);
+  }
+  function equipIntoSlot(item: ItemDefinition, slot: EquipmentSlot) {
+    if (item.slot !== slot) {
+      setNotice(`${item.name} belongs in the ${item.slot} slot.`);
+      return;
+    }
+    equip(item);
   }
   function upgradeGear() {
     if (!player || !selectedGear) return;
@@ -604,20 +623,60 @@ export function App() {
                     )
                   )}
                 </div>
-                <div className="armory-grid">
-                  <div className="gear-list">
+                <div className="armory-grid armory-loadout">
+                  <section className="paper-doll" aria-label="Knight equipment">
+                    <p>Drag gear to its matching slot</p>
+                    <img src={knightArtwork} alt="Your equipped knight" />
+                    {loadoutSlots.map(({ slot, label }) => {
+                      const equipped = player?.equipment[slot] ?? null;
+                      return (
+                        <button
+                          type="button"
+                          key={slot}
+                          className={`equipment-slot slot-${slot} ${
+                            equipped ? `rarity-${equipped.rarity}` : "empty"
+                          }`}
+                          onDragOver={(event) => event.preventDefault()}
+                          onDrop={(event) => {
+                            event.preventDefault();
+                            const item = player?.inventory.find(
+                              (entry) =>
+                                entry.id ===
+                                event.dataTransfer.getData("item-id")
+                            );
+                            if (item) equipIntoSlot(item, slot);
+                          }}
+                          onClick={() => {
+                            if (selectedGear) equipIntoSlot(selectedGear, slot);
+                          }}
+                        >
+                          {equipped ? (
+                            <GearIcon item={equipped} compact />
+                          ) : (
+                            "＋"
+                          )}
+                          <span>{label}</span>
+                        </button>
+                      );
+                    })}
+                  </section>
+                  <div className="gear-list" aria-label="Inventory">
                     {player?.inventory
                       .slice()
                       .reverse()
-                      .slice(0, 12)
+                      .slice(0, 20)
                       .map((item) => (
                         <button
                           type="button"
+                          draggable
                           key={item.id}
                           className={
                             selectedGear?.id === item.id
                               ? `selected rarity-${item.rarity}`
                               : `rarity-${item.rarity}`
+                          }
+                          onDragStart={(event) =>
+                            event.dataTransfer.setData("item-id", item.id)
                           }
                           onClick={() => setSelectedGear(item)}
                         >
@@ -630,8 +689,8 @@ export function App() {
                           </span>
                           <em>
                             {player.equipment[item.slot]?.id === item.id
-                              ? "Equipped"
-                              : "Inspect"}
+                              ? "Worn"
+                              : item.slot}
                           </em>
                         </button>
                       ))}
