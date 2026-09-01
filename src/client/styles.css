@@ -1539,6 +1539,9 @@ h2 {
     linear-gradient(90deg, #17392f22 0 8%, transparent 8% 92%, #17392f22 92%),
     linear-gradient(180deg, #86c8c3 0%, #a9dad1 43%, #5d9875 44%, #355b44 100%);
 }
+.contract-card.biome-greywatch {
+  background: url("./assets/greywatch-scene.png") center / cover no-repeat;
+}
 .hero-preview {
   position: absolute;
   inset: 0;
@@ -1559,6 +1562,10 @@ h2 {
   content: "";
   opacity: 0.55;
   pointer-events: none;
+}
+.biome-greywatch .hero-preview::before,
+.biome-greywatch .hero-preview::after {
+  display: none;
 }
 .hero-preview::before {
   left: 0;
@@ -1796,7 +1803,8 @@ h2 {
 }
 .enemy-art {
   background-image: url("./assets/enemy-cutouts.png") !important;
-  background-size: 100% 600% !important;
+  /* Preserve each cutout's proportions and crop only the transparent sheet margins. */
+  background-size: auto 600% !important;
   background-position: center top;
   mix-blend-mode: normal;
   filter: drop-shadow(0 7px 5px #0b2827aa);
