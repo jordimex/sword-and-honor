@@ -165,6 +165,8 @@ h2 {
   height: 100%;
   object-fit: contain;
   object-position: center bottom;
+  /* The generated art uses a dark canvas; screen blending removes that square in the dungeon scene. */
+  mix-blend-mode: screen;
   filter: drop-shadow(0 9px 12px #0009);
   animation: knight-idle 3.4s ease-in-out infinite;
 }
@@ -340,6 +342,7 @@ h2 {
   background-size: 100% 300%;
   background-repeat: no-repeat;
   filter: drop-shadow(0 8px 10px #000);
+  mix-blend-mode: screen;
   animation: enemy-idle 3.1s ease-in-out infinite 0.3s;
 }
 .enemy-art-0 {
@@ -535,6 +538,7 @@ h2 {
   justify-self: center;
   margin-bottom: -25px;
   filter: drop-shadow(0 8px 10px #000);
+  mix-blend-mode: screen;
   animation: knight-idle 3.4s ease-in-out infinite;
 }
 .battle-art .enemy-art {
