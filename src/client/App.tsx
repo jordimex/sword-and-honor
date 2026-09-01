@@ -159,6 +159,9 @@ export function App() {
   const [modal, setModal] = useState<Modal>("knight");
   const [loot, setLoot] = useState<ItemDefinition | null>(null);
   const [selectedGear, setSelectedGear] = useState<ItemDefinition | null>(null);
+  const [gearTab, setGearTab] = useState<"loadout" | "inventory" | "forge">(
+    "loadout"
+  );
   const [notice, setNotice] = useState(
     "Forge your knight, then enter the Greywatch dungeon."
   );
@@ -433,6 +436,7 @@ export function App() {
               setSelectedGear(
                 player?.equipment.weapon ?? player?.inventory[0] ?? null
               );
+              setGearTab("loadout");
               setModal("gear");
             }}
           >
@@ -623,7 +627,25 @@ export function App() {
                     )
                   )}
                 </div>
-                <div className="armory-grid armory-loadout">
+                <div
+                  className="armory-tabs"
+                  role="tablist"
+                  aria-label="Armory views"
+                >
+                  {(["loadout", "inventory", "forge"] as const).map((tab) => (
+                    <button
+                      type="button"
+                      key={tab}
+                      role="tab"
+                      aria-selected={gearTab === tab}
+                      className={gearTab === tab ? "active" : ""}
+                      onClick={() => setGearTab(tab)}
+                    >
+                      {tab}
+                    </button>
+                  ))}
+                </div>
+                <div className={`armory-grid armory-loadout tab-${gearTab}`}>
                   <section className="paper-doll" aria-label="Knight equipment">
                     <p>Drag gear to its matching slot</p>
                     <img src={knightArtwork} alt="Your equipped knight" />
@@ -678,7 +700,10 @@ export function App() {
                           onDragStart={(event) =>
                             event.dataTransfer.setData("item-id", item.id)
                           }
-                          onClick={() => setSelectedGear(item)}
+                          onClick={() => {
+                            setSelectedGear(item);
+                            setGearTab("forge");
+                          }}
                         >
                           <GearIcon item={item} />
                           <span>

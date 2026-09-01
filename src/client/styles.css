@@ -748,12 +748,66 @@ h2 {
   border-radius: 14px;
   background: #b8c6ba;
 }
+.armory-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  margin: 8px 0;
+  padding: 4px;
+  border: 2px solid #6d7e7f;
+  border-radius: 10px;
+  background: #314b52;
+}
+.armory-tabs button {
+  border: 0;
+  border-radius: 6px;
+  padding: 6px 4px;
+  color: #d8e5d6;
+  font-size: 0.68rem;
+  font-weight: bold;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: transparent;
+}
+.armory-tabs button.active {
+  color: #17303d;
+  background: #ffe16e;
+  box-shadow: inset 0 1px #fff9, 0 2px #182d38;
+}
 .armory-loadout {
   grid-template-columns: minmax(180px, 0.9fr) minmax(210px, 1.15fr) minmax(
       170px,
       0.8fr
     );
   align-items: stretch;
+}
+.armory-loadout.tab-loadout,
+.armory-loadout.tab-inventory,
+.armory-loadout.tab-forge {
+  display: block;
+  min-height: 0;
+  padding: 7px;
+}
+.armory-loadout.tab-loadout .gear-list,
+.armory-loadout.tab-loadout .forge-panel,
+.armory-loadout.tab-inventory .paper-doll,
+.armory-loadout.tab-inventory .forge-panel,
+.armory-loadout.tab-forge .paper-doll,
+.armory-loadout.tab-forge .gear-list {
+  display: none;
+}
+.armory-loadout.tab-loadout .paper-doll {
+  min-height: 280px;
+  max-width: 355px;
+  margin: 0 auto;
+}
+.armory-loadout.tab-inventory .gear-list {
+  max-height: 285px;
+}
+.armory-loadout.tab-forge .forge-panel {
+  min-height: 275px;
+  max-width: 355px;
+  margin: 0 auto;
 }
 .paper-doll {
   position: relative;
