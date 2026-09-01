@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developers.reddit.com/schema/config-file.v1.json",
+  "name": "sword-and-honor",
+  "post": {
+    "dir": "dist/client",
+    "entrypoints": {
+      "default": {
+        "entry": "index.html",
+        "height": "tall"
+      }
+    }
+  },
+  "server": {
+    "dir": "dist/server",
+    "entry": "index.js"
+  },
+  "menu": {
+    "items": [
+      {
+        "label": "Create Sword and Honor Test Post",
+        "description": "Start a playable Sword and Honor campaign post",
+        "forUserType": "moderator",
+        "location": "subreddit",
+        "endpoint": "/internal/menu/create-sword-and-honor"
+      }
+    ]
+  },
+  "permissions": {
+    "redis": true
+  },
+  "scripts": {
+    "dev": "npm run build:client",
+    "build": "npm run build:client"
+  },
+  "dev": {
+    "subreddit": "sword_and_honor_dev"
+  }
+}
