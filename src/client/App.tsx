@@ -59,6 +59,42 @@ const meter = (value: number, maximum: number) =>
 const rarityLabel = (item: ItemDefinition) =>
   `${item.rarity} · T${item.tier.replace("tier", "")}`;
 
+function itemDescription(item: ItemDefinition) {
+  if (item.uniqueEffect) return item.uniqueEffect;
+  if (item.category === "weapon") {
+    const family = item.weaponFamily?.replace(/\b\w/g, (letter) =>
+      letter.toUpperCase()
+    );
+    return `A ${
+      family ?? "forged"
+    } weapon made for decisive strikes in the dungeon.`;
+  }
+  if (item.category === "shield")
+    return "A battle-worn offhand built to turn a dangerous blow aside.";
+  if (item.category === "armor")
+    return "Protective field gear that reinforces your knight through long dungeon runs.";
+  return "A finely made charm that strengthens the bearer with a quiet, lasting boon.";
+}
+
+function itemStatLines(item: ItemDefinition) {
+  const labels: Array<[keyof ItemDefinition["statBonuses"], string]> = [
+    ["attack", "Attack"],
+    ["defense", "Defense"],
+    ["maxHp", "Max HP"],
+    ["speed", "Speed"],
+    ["critChance", "Crit chance"],
+    ["blockChance", "Block chance"],
+    ["dodgeChance", "Dodge chance"],
+  ];
+  return labels.flatMap(([key, label]) => {
+    const value = item.statBonuses[key];
+    if (!value) return [];
+    const suffix = key.endsWith("Chance") ? "%" : "";
+    const display = key.endsWith("Chance") ? Math.round(value * 100) : value;
+    return [`${label} +${display}${suffix}`];
+  });
+}
+
 function enemyArtClass(name: string, biome: string) {
   if (biome === "greywatch") {
     if (name.includes("Archer")) return "enemy-art-greywatch-archer";
@@ -165,6 +201,7 @@ export function App() {
   const [gearFilter, setGearFilter] = useState<
     "all" | ItemDefinition["category"]
   >("all");
+  const [gearDetailOpen, setGearDetailOpen] = useState(false);
   const [notice, setNotice] = useState(
     "Forge your knight, then enter the Greywatch dungeon."
   );
@@ -726,7 +763,10 @@ export function App() {
                             onDragStart={(event) =>
                               event.dataTransfer.setData("item-id", item.id)
                             }
-                            onClick={() => setSelectedGear(item)}
+                            onClick={() => {
+                              setSelectedGear(item);
+                              setGearDetailOpen(true);
+                            }}
                           >
                             <GearIcon item={item} />
                             <span className="gear-card-label">
@@ -752,10 +792,7 @@ export function App() {
                           Gear {selectedGear.gearScore} · +
                           {selectedGear.upgradeLevel ?? 0}
                         </p>
-                        <p>
-                          {selectedGear.uniqueEffect ??
-                            "Forge this item with monster materials."}
-                        </p>
+                        <p>{itemDescription(selectedGear)}</p>
                         <button
                           type="button"
                           className="quiet-button full-width"
@@ -808,6 +845,65 @@ export function App() {
                     </div>
                   </section>
                 </div>
+                {selectedGear && gearDetailOpen && (
+                  <section
+                    className="item-inspector"
+                    role="dialog"
+                    aria-label={`${selectedGear.name} details`}
+                  >
+                    <button
+                      type="button"
+                      className="inspector-close"
+                      aria-label="Close item details"
+                      onClick={() => setGearDetailOpen(false)}
+                    >
+                      ×
+                    </button>
+                    <p className={`rarity-tag rarity-${selectedGear.rarity}`}>
+                      {rarityLabel(selectedGear)} · {selectedGear.slot}
+                    </p>
+                    <GearIcon item={selectedGear} />
+                    <h3>{selectedGear.name}</h3>
+                    <p className="inspector-description">
+                      {itemDescription(selectedGear)}
+                    </p>
+                    <div className="item-stat-lines">
+                      <span>Gear score {selectedGear.gearScore}</span>
+                      {itemStatLines(selectedGear).map((line) => (
+                        <span key={line}>{line}</span>
+                      ))}
+                      {selectedGear.affixes.map((affix) => (
+                        <span key={affix.id}>{affix.label}</span>
+                      ))}
+                    </div>
+                    <p className="class-lock">
+                      Usable by:{" "}
+                      {selectedGear.allowedClasses?.join(", ") ?? "all classes"}
+                    </p>
+                    <div className="inspector-actions">
+                      <button
+                        type="button"
+                        className="quiet-button"
+                        onClick={() => {
+                          equip(selectedGear);
+                          setGearDetailOpen(false);
+                        }}
+                      >
+                        Equip
+                      </button>
+                      <button
+                        type="button"
+                        className="fight-button"
+                        onClick={() => {
+                          setGearDetailOpen(false);
+                          setGearTab("forge");
+                        }}
+                      >
+                        Upgrade
+                      </button>
+                    </div>
+                  </section>
+                )}
                 <button
                   type="button"
                   className="quiet-button full-width"

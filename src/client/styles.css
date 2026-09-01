@@ -557,6 +557,7 @@ h2 {
   background: #080604bd;
 }
 .game-modal {
+  position: relative;
   width: min(640px, 100%);
   max-height: calc(100% - 18px);
   overflow: auto;
@@ -1198,6 +1199,90 @@ h2 {
   text-transform: uppercase;
   font-size: 0.65rem;
   letter-spacing: 0.08em;
+}
+.item-inspector {
+  position: absolute;
+  z-index: 12;
+  top: 50%;
+  left: 50%;
+  width: min(325px, calc(100% - 28px));
+  max-height: calc(100% - 24px);
+  overflow: auto;
+  padding: 16px;
+  border: 3px solid #243f4b;
+  border-radius: 16px;
+  color: #213644;
+  text-align: center;
+  background: linear-gradient(180deg, #fff9e8 0 39%, #d9e3d8 39% 100%);
+  box-shadow: 0 7px 0 #162f3b, 0 18px 40px #0009;
+  transform: translate(-50%, -50%);
+}
+.item-inspector > .gear-icon {
+  width: 82px;
+  height: 82px;
+  margin: 4px auto 8px;
+  border-width: 2px;
+}
+.item-inspector h3 {
+  margin: 0 24px 7px;
+  color: #183541;
+  font-size: 1.05rem;
+}
+.inspector-close {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 2px solid #782c31;
+  border-radius: 8px;
+  color: #fff9e2;
+  background: #d94b54;
+  box-shadow: 0 2px #782c31;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.inspector-description {
+  margin: 10px -16px;
+  padding: 12px 16px;
+  color: #19333e;
+  text-align: left;
+  background: #eaf0e9;
+  font-size: 0.77rem;
+  line-height: 1.35;
+}
+.item-stat-lines {
+  display: grid;
+  gap: 4px;
+  margin: 10px 0;
+  color: #183641;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+.item-stat-lines span::before {
+  margin-right: 5px;
+  color: #d18a17;
+  content: "◆";
+}
+.class-lock {
+  margin: 8px 0 11px;
+  color: #53636a;
+  font-size: 0.66rem;
+  text-transform: capitalize;
+}
+.inspector-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+.inspector-actions button {
+  min-height: 35px;
+  margin: 0;
+  padding: 7px 5px;
+  font-size: 0.77rem;
 }
 .skill-grid {
   display: grid;
