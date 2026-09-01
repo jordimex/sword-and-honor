@@ -74,6 +74,7 @@ describe("combat engine", () => {
           !item.allowedClasses?.length || item.allowedClasses.includes("knight")
       )
     ).toBe(true);
+    expect(new Set(loot.map((item) => item.id)).size).toBe(loot.length);
   });
 });
 

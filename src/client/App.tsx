@@ -284,10 +284,13 @@ export function App() {
   function resolveVictory(result: CombatState) {
     if (!player) return;
     const rewarded = ProgressionService.addRewards(player, encounter);
+    const newLoot = result.pendingLoot.filter(
+      (item) => !rewarded.inventory.some((owned) => owned.id === item.id)
+    );
     const updated = ThroneProgressionService.updateTitleAndThrone(
       EquipmentService.computePlayerState({
         ...rewarded,
-        inventory: [...rewarded.inventory, ...result.pendingLoot],
+        inventory: [...rewarded.inventory, ...newLoot],
         achievements:
           encounter.rewards.achievement &&
           !rewarded.achievements.includes(encounter.rewards.achievement)
@@ -296,12 +299,12 @@ export function App() {
       })
     );
     setPlayer(updated);
-    setLoot(result.pendingLoot[0] ?? null);
+    setLoot(newLoot[0] ?? null);
     setCombat(null);
     setNotice(
       `Dungeon clear. The ${encounter.rewardTier} reward chest is open.`
     );
-    setModal(result.pendingLoot[0] ? "loot" : null);
+    setModal(newLoot[0] ? "loot" : null);
   }
   function equip(item: ItemDefinition) {
     if (!player) return;

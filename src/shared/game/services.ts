@@ -503,7 +503,11 @@ export class LootService {
         return usableDrop(dropId);
       })
       .slice(0, 1);
-    return [...guaranteed, ...enemyDrops];
+    return [
+      ...new Map(
+        [...guaranteed, ...enemyDrops].map((item) => [item.id, item])
+      ).values(),
+    ];
   }
 }
 
