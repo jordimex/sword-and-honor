@@ -764,7 +764,11 @@ export function App() {
                         .reverse()
                         .filter(
                           (item) =>
-                            gearFilter === "all" || item.category === gearFilter
+                            (gearFilter === "all" ||
+                              item.category === gearFilter) &&
+                            !Object.values(player?.equipment ?? {}).some(
+                              (equipped) => equipped?.id === item.id
+                            )
                         )
                         .slice(0, 30)
                         .map((item) => (
@@ -787,11 +791,7 @@ export function App() {
                             }}
                           >
                             <GearIcon item={item} />
-                            <span className="gear-card-label">
-                              {player?.equipment[item.slot]?.id === item.id
-                                ? "Worn"
-                                : item.slot}
-                            </span>
+                            <span className="gear-card-label">{item.slot}</span>
                           </button>
                         ))}
                     </div>
