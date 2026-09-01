@@ -239,13 +239,13 @@ h2 {
   position: relative;
   display: block;
   flex: 0 0 auto;
-  width: 35px;
-  height: 35px;
+  width: 42px;
+  height: 42px;
   border: 1px solid currentColor;
   border-radius: 8px;
   color: var(--gold);
   background-color: #120b07;
-  background-image: url("./assets/equipment-atlas.png");
+  background-image: url("./assets/equipment-atlas-intricate.png");
   background-size: 400% 300%;
   box-shadow: inset 0 0 14px #ffffff14, 0 3px 8px #0008;
 }
@@ -260,8 +260,8 @@ h2 {
   font-size: 0.54rem;
 }
 .gear-icon.compact {
-  width: 25px;
-  height: 25px;
+  width: 27px;
+  height: 27px;
   font-size: 0.9rem;
 }
 .gear-icon.rarity-normal {
@@ -987,8 +987,8 @@ h2 {
   transform: translateY(-2px);
 }
 .equipment-slot .gear-icon {
-  width: 25px;
-  height: 25px;
+  width: 27px;
+  height: 27px;
 }
 .equipment-slot > span {
   color: #ffe3a0;
