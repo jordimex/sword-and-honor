@@ -400,18 +400,17 @@ h2 {
   background-image: url("./assets/enemy-roster.png");
   background-size: 100% 300%;
   background-repeat: no-repeat;
-  /* Dark roster canvases are suppressed so the figure reads as a stage cutout. */
-  filter: brightness(0.54) contrast(2.5) saturate(1.35)
-    drop-shadow(0 8px 6px #152225cc);
-  mix-blend-mode: screen;
+  /* Keep fighters bright and readable; the mask softens roster-sheet edges without fading the character. */
+  filter: contrast(1.22) saturate(1.18) drop-shadow(0 8px 6px #152225cc);
+  mix-blend-mode: normal;
   -webkit-mask-image: radial-gradient(
-    ellipse 46% 58% at 50% 57%,
-    #000 48%,
+    ellipse 42% 57% at 50% 58%,
+    #000 58%,
     transparent 88%
   );
   mask-image: radial-gradient(
-    ellipse 46% 58% at 50% 57%,
-    #000 48%,
+    ellipse 42% 57% at 50% 58%,
+    #000 58%,
     transparent 88%
   );
   animation: enemy-idle 3.1s ease-in-out infinite 0.3s;
