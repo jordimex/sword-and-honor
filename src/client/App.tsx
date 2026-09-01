@@ -162,6 +162,9 @@ export function App() {
   const [gearTab, setGearTab] = useState<
     "loadout" | "inventory" | "forge" | "bag"
   >("loadout");
+  const [gearFilter, setGearFilter] = useState<
+    "all" | ItemDefinition["category"]
+  >("all");
   const [notice, setNotice] = useState(
     "Forge your knight, then enter the Greywatch dungeon."
   );
@@ -675,44 +678,66 @@ export function App() {
                       );
                     })}
                   </section>
-                  <div className="gear-list" aria-label="Inventory">
-                    {player?.inventory
-                      .slice()
-                      .reverse()
-                      .slice(0, 20)
-                      .map((item) => (
+                  <section className="gear-list" aria-label="Inventory">
+                    <header className="inventory-heading">
+                      <span>Equipment bag</span>
+                      <small>Drag an item onto its matching slot</small>
+                    </header>
+                    <div className="gear-filters" aria-label="Gear filters">
+                      {(
+                        [
+                          ["all", "All"],
+                          ["weapon", "Weapons"],
+                          ["armor", "Armor"],
+                          ["shield", "Offhand"],
+                          ["accessory", "Charms"],
+                        ] as const
+                      ).map(([filter, label]) => (
                         <button
                           type="button"
-                          draggable
-                          key={item.id}
-                          className={
-                            selectedGear?.id === item.id
-                              ? `selected rarity-${item.rarity}`
-                              : `rarity-${item.rarity}`
-                          }
-                          onDragStart={(event) =>
-                            event.dataTransfer.setData("item-id", item.id)
-                          }
-                          onClick={() => {
-                            setSelectedGear(item);
-                            setGearTab("forge");
-                          }}
+                          key={filter}
+                          className={gearFilter === filter ? "active" : ""}
+                          onClick={() => setGearFilter(filter)}
                         >
-                          <GearIcon item={item} />
-                          <span>
-                            <strong>{item.name}</strong>
-                            <small>
-                              {rarityLabel(item)} · +{item.upgradeLevel ?? 0}
-                            </small>
-                          </span>
-                          <em>
-                            {player.equipment[item.slot]?.id === item.id
-                              ? "Worn"
-                              : item.slot}
-                          </em>
+                          {label}
                         </button>
                       ))}
-                  </div>
+                    </div>
+                    <div className="gear-grid">
+                      {player?.inventory
+                        .slice()
+                        .reverse()
+                        .filter(
+                          (item) =>
+                            gearFilter === "all" || item.category === gearFilter
+                        )
+                        .slice(0, 30)
+                        .map((item) => (
+                          <button
+                            type="button"
+                            draggable
+                            key={item.id}
+                            title={`${item.name} · ${rarityLabel(item)}`}
+                            className={
+                              selectedGear?.id === item.id
+                                ? `selected rarity-${item.rarity}`
+                                : `rarity-${item.rarity}`
+                            }
+                            onDragStart={(event) =>
+                              event.dataTransfer.setData("item-id", item.id)
+                            }
+                            onClick={() => setSelectedGear(item)}
+                          >
+                            <GearIcon item={item} />
+                            <span className="gear-card-label">
+                              {player?.equipment[item.slot]?.id === item.id
+                                ? "Worn"
+                                : item.slot}
+                            </span>
+                          </button>
+                        ))}
+                    </div>
+                  </section>
                   <aside className="forge-panel">
                     {selectedGear ? (
                       <>

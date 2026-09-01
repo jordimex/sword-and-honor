@@ -825,7 +825,6 @@ h2 {
   min-height: 0;
   padding: 7px;
 }
-.armory-loadout.tab-loadout .gear-list,
 .armory-loadout.tab-loadout .forge-panel,
 .armory-loadout.tab-loadout .material-bag,
 .armory-loadout.tab-inventory .paper-doll,
@@ -840,9 +839,14 @@ h2 {
   display: none;
 }
 .armory-loadout.tab-loadout .paper-doll {
-  min-height: 292px;
+  min-height: 264px;
   max-width: 355px;
   margin: 0 auto;
+}
+.armory-loadout.tab-loadout .gear-list {
+  display: block;
+  max-width: 355px;
+  margin: 8px auto 0;
 }
 .armory-loadout.tab-inventory .gear-list {
   max-height: 285px;
@@ -916,7 +920,7 @@ h2 {
 }
 .paper-doll {
   position: relative;
-  min-height: 350px;
+  min-height: 260px;
   overflow: hidden;
   border: 2px solid #52626c;
   border-radius: 12px;
@@ -944,9 +948,9 @@ h2 {
 .paper-doll > img {
   position: absolute;
   left: 50%;
-  bottom: -16px;
-  width: 72%;
-  height: 88%;
+  bottom: -25px;
+  width: 60%;
+  height: 92%;
   object-fit: contain;
   object-position: center bottom;
   transform: translateX(-50%);
@@ -1003,39 +1007,39 @@ h2 {
 }
 .slot-weapon {
   left: 7px;
-  top: 45px;
+  top: 38px;
 }
 .slot-offhand {
   right: 7px;
-  top: 45px;
+  top: 38px;
 }
 .slot-helmet {
   right: 7px;
-  top: 103px;
+  top: 94px;
 }
 .slot-chest {
   left: 7px;
-  top: 103px;
+  top: 94px;
 }
 .slot-gauntlets {
   left: 7px;
-  top: 161px;
+  top: 150px;
 }
 .slot-boots {
   right: 7px;
-  top: 161px;
+  top: 150px;
 }
 .slot-cloak {
   left: 7px;
-  top: 219px;
+  top: 206px;
 }
 .slot-ring1 {
   right: 7px;
-  top: 219px;
+  top: 206px;
 }
 .slot-amulet {
   left: 50%;
-  top: 219px;
+  top: 206px;
   transform: translateX(-50%);
 }
 .slot-amulet:hover,
@@ -1043,27 +1047,96 @@ h2 {
   transform: translateX(-50%) translateY(-2px);
 }
 .gear-list {
-  display: grid;
-  gap: 7px;
-  max-height: 380px;
-  overflow: auto;
+  padding: 8px;
+  border: 2px solid #48616a;
+  border-radius: 11px;
+  background: linear-gradient(145deg, #173741, #102832);
+  box-shadow: inset 0 1px #ffffff22, 0 3px #0b1b22;
 }
-.gear-list button {
+.inventory-heading {
   display: flex;
+  align-items: baseline;
   justify-content: space-between;
-  align-items: center;
-  border: 2px solid #52626c;
-  border-left-width: 4px;
-  border-radius: 9px;
-  padding: 9px;
-  color: #243542;
-  text-align: left;
-  background: linear-gradient(90deg, #fff8df, #ddd2b9);
-  box-shadow: inset 0 2px #ffffff;
+  gap: 8px;
+  color: #fff2bd;
+  font-size: 0.72rem;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
-.gear-list button > span:not(.gear-icon) {
-  min-width: 0;
-  flex: 1;
+.inventory-heading small {
+  color: #a9c4bb;
+  font-size: 0.53rem;
+  letter-spacing: 0.03em;
+}
+.gear-filters {
+  display: flex;
+  gap: 4px;
+  margin: 7px 0;
+  overflow-x: auto;
+}
+.gear-filters button {
+  flex: 0 0 auto;
+  border: 1px solid #5d7d80;
+  border-radius: 99px;
+  padding: 3px 7px;
+  color: #c9ddd0;
+  background: #0a1c24;
+  font-size: 0.58rem;
+  font-weight: bold;
+}
+.gear-filters button.active {
+  color: #172f36;
+  background: #ffe26b;
+  box-shadow: 0 1px 0 #fff9;
+}
+.gear-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 5px;
+  max-height: 155px;
+  overflow-y: auto;
+  padding-right: 3px;
+}
+.gear-grid > button {
+  position: relative;
+  display: grid;
+  min-height: 48px;
+  place-items: center;
+  border: 2px solid #52626c;
+  border-left-width: 3px;
+  border-radius: 8px;
+  padding: 2px;
+  color: #e9f3e5;
+  background: radial-gradient(circle at 50% 38%, #ffffff19, transparent 48%),
+    #091923;
+  box-shadow: inset 0 1px #ffffff18, 0 2px #071117;
+}
+.gear-grid > button:hover,
+.gear-grid > button:focus-visible,
+.gear-grid > button.selected {
+  outline: 0;
+  border-color: #ffe36c;
+  background: #314f51;
+  transform: translateY(-1px);
+}
+.gear-grid .gear-icon {
+  width: 35px;
+  height: 35px;
+}
+.gear-card-label {
+  position: absolute;
+  right: 2px;
+  bottom: 1px;
+  max-width: 90%;
+  overflow: hidden;
+  color: #fff0af;
+  font-size: 0.43rem;
+  font-weight: bold;
+  line-height: 1;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 .forge-panel > .gear-icon {
   width: 110px;
