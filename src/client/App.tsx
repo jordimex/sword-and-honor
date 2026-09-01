@@ -159,9 +159,9 @@ export function App() {
   const [modal, setModal] = useState<Modal>("knight");
   const [loot, setLoot] = useState<ItemDefinition | null>(null);
   const [selectedGear, setSelectedGear] = useState<ItemDefinition | null>(null);
-  const [gearTab, setGearTab] = useState<"loadout" | "inventory" | "forge">(
-    "loadout"
-  );
+  const [gearTab, setGearTab] = useState<
+    "loadout" | "inventory" | "forge" | "bag"
+  >("loadout");
   const [notice, setNotice] = useState(
     "Forge your knight, then enter the Greywatch dungeon."
   );
@@ -618,32 +618,25 @@ export function App() {
               <>
                 <p className="eyebrow">ARMORY DECK · FORGE LOADOUT</p>
                 <h2>Gear and upgrades</h2>
-                <div className="material-row">
-                  {Object.entries(player?.materials ?? {}).map(
-                    ([material, count]) => (
-                      <span key={material}>
-                        {material} <b>{count}</b>
-                      </span>
-                    )
-                  )}
-                </div>
                 <div
                   className="armory-tabs"
                   role="tablist"
                   aria-label="Armory views"
                 >
-                  {(["loadout", "inventory", "forge"] as const).map((tab) => (
-                    <button
-                      type="button"
-                      key={tab}
-                      role="tab"
-                      aria-selected={gearTab === tab}
-                      className={gearTab === tab ? "active" : ""}
-                      onClick={() => setGearTab(tab)}
-                    >
-                      {tab}
-                    </button>
-                  ))}
+                  {(["loadout", "inventory", "forge", "bag"] as const).map(
+                    (tab) => (
+                      <button
+                        type="button"
+                        key={tab}
+                        role="tab"
+                        aria-selected={gearTab === tab}
+                        className={gearTab === tab ? "active" : ""}
+                        onClick={() => setGearTab(tab)}
+                      >
+                        {tab}
+                      </button>
+                    )
+                  )}
                 </div>
                 <div className={`armory-grid armory-loadout tab-${gearTab}`}>
                   <section className="paper-doll" aria-label="Knight equipment">
@@ -766,6 +759,29 @@ export function App() {
                       <p>Select an item to equip or improve it.</p>
                     )}
                   </aside>
+                  <section
+                    className="material-bag"
+                    aria-label="Crafting materials"
+                  >
+                    <span>Crafting bag</span>
+                    <h3>Monster materials</h3>
+                    <p>
+                      Use these drops to improve weapons and armor at the forge.
+                    </p>
+                    <div>
+                      {Object.entries(player?.materials ?? {}).map(
+                        ([material, count]) => (
+                          <article
+                            key={material}
+                            className={`material-${material}`}
+                          >
+                            <strong>{material}</strong>
+                            <b>{count}</b>
+                          </article>
+                        )
+                      )}
+                    </div>
+                  </section>
                 </div>
                 <button
                   type="button"

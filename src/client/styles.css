@@ -750,7 +750,7 @@ h2 {
 }
 .armory-tabs {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 5px;
   margin: 8px 0;
   padding: 4px;
@@ -790,14 +790,20 @@ h2 {
 }
 .armory-loadout.tab-loadout .gear-list,
 .armory-loadout.tab-loadout .forge-panel,
+.armory-loadout.tab-loadout .material-bag,
 .armory-loadout.tab-inventory .paper-doll,
 .armory-loadout.tab-inventory .forge-panel,
+.armory-loadout.tab-inventory .material-bag,
 .armory-loadout.tab-forge .paper-doll,
-.armory-loadout.tab-forge .gear-list {
+.armory-loadout.tab-forge .gear-list,
+.armory-loadout.tab-forge .material-bag,
+.armory-loadout.tab-bag .paper-doll,
+.armory-loadout.tab-bag .gear-list,
+.armory-loadout.tab-bag .forge-panel {
   display: none;
 }
 .armory-loadout.tab-loadout .paper-doll {
-  min-height: 280px;
+  min-height: 292px;
   max-width: 355px;
   margin: 0 auto;
 }
@@ -808,6 +814,68 @@ h2 {
   min-height: 275px;
   max-width: 355px;
   margin: 0 auto;
+}
+.material-bag {
+  display: none;
+  max-width: 355px;
+  min-height: 272px;
+  margin: 0 auto;
+  padding: 18px;
+  border: 2px solid #536b6b;
+  border-radius: 12px;
+  color: #f6f0cf;
+  text-align: center;
+  background: radial-gradient(circle at 50% 18%, #b68e4e55, transparent 35%),
+    linear-gradient(145deg, #304a45, #1e3033);
+}
+.material-bag > span {
+  color: #ffdb6a;
+  font-size: 0.62rem;
+  font-weight: bold;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.material-bag h3 {
+  margin: 7px 0 3px;
+}
+.material-bag > p {
+  margin: 0 0 14px;
+  color: #c8d8ca;
+  font-size: 0.74rem;
+}
+.material-bag > div {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+.material-bag article {
+  display: grid;
+  gap: 4px;
+  min-height: 66px;
+  place-content: center;
+  border: 2px solid #748c7d;
+  border-radius: 9px;
+  background: #10232699;
+  text-transform: capitalize;
+}
+.material-bag article strong {
+  font-size: 0.72rem;
+}
+.material-bag article b {
+  color: #ffe16e;
+  font-size: 1.15rem;
+}
+.material-wood {
+  box-shadow: inset 0 0 18px #9b662c55;
+}
+.material-stone {
+  box-shadow: inset 0 0 18px #9ba4a055;
+}
+.material-iron {
+  box-shadow: inset 0 0 18px #8b9daa55;
+}
+.material-orichalcum {
+  box-shadow: inset 0 0 18px #7bcdd055;
 }
 .paper-doll {
   position: relative;
@@ -865,15 +933,15 @@ h2 {
   display: grid;
   justify-items: center;
   gap: 2px;
-  width: 58px;
-  min-height: 58px;
+  width: 50px;
+  min-height: 50px;
   border: 2px solid #d39c34;
   border-radius: 9px;
   padding: 3px;
   color: #fff6cf;
   background: #0d1923e8;
   box-shadow: inset 0 0 0 2px #ffffff14, 0 3px 0 #08131d;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 .equipment-slot:hover,
 .equipment-slot:focus-visible {
@@ -882,8 +950,8 @@ h2 {
   transform: translateY(-2px);
 }
 .equipment-slot .gear-icon {
-  width: 31px;
-  height: 31px;
+  width: 25px;
+  height: 25px;
 }
 .equipment-slot > span {
   color: #ffe3a0;
@@ -898,39 +966,39 @@ h2 {
 }
 .slot-weapon {
   left: 7px;
-  top: 60px;
+  top: 45px;
 }
 .slot-offhand {
   right: 7px;
-  top: 60px;
+  top: 45px;
 }
 .slot-helmet {
   right: 7px;
-  top: 126px;
+  top: 103px;
 }
 .slot-chest {
   left: 7px;
-  top: 126px;
+  top: 103px;
 }
 .slot-gauntlets {
   left: 7px;
-  top: 194px;
+  top: 161px;
 }
 .slot-boots {
   right: 7px;
-  top: 194px;
+  top: 161px;
 }
 .slot-cloak {
   left: 7px;
-  bottom: 8px;
+  top: 219px;
 }
 .slot-ring1 {
   right: 7px;
-  bottom: 8px;
+  top: 219px;
 }
 .slot-amulet {
   left: 50%;
-  bottom: 8px;
+  top: 219px;
   transform: translateX(-50%);
 }
 .slot-amulet:hover,
