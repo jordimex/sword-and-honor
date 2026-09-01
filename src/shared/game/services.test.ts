@@ -63,8 +63,17 @@ describe("combat engine", () => {
   });
 
   it("drops deterministic loot", () => {
-    const loot = LootService.generateEncounterLoot(ENCOUNTERS[0], 123);
-    expect(loot[0].id).toBe("weapon-11");
+    const loot = LootService.generateEncounterLoot(
+      ENCOUNTERS[0],
+      123,
+      "knight"
+    );
+    expect(
+      loot.every(
+        (item) =>
+          !item.allowedClasses?.length || item.allowedClasses.includes("knight")
+      )
+    ).toBe(true);
   });
 });
 

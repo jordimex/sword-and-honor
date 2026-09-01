@@ -1,4 +1,9 @@
-import { ABILITIES, ENCOUNTERS, findItem } from "@/shared/game/content";
+import {
+  ABILITIES,
+  ENCOUNTERS,
+  findItem,
+  ITEM_CATALOG,
+} from "@/shared/game/content";
 import {
   MAX_KNIGHT_LEVEL,
   STATUS_CAPS,
@@ -19,6 +24,7 @@ import type {
   Resistances,
   StatusEffect,
   SkillId,
+  Specialization,
   WorldSpeedOption,
 } from "@/shared/game/types";
 import { createSeededRng } from "@/shared/game/rng";
@@ -458,15 +464,43 @@ export class GemService {
 export class LootService {
   static generateEncounterLoot(
     encounter: EncounterDefinition,
-    seed: number
+    seed: number,
+    specialization: Specialization
   ): ItemDefinition[] {
     const rng = createSeededRng(seed);
-    const guaranteed = encounter.rewards.guaranteedLoot?.map(findItem) ?? [];
+    const usableDrop = (itemId: string) => {
+      const rolled = findItem(itemId);
+      if (
+        !rolled.allowedClasses?.length ||
+        rolled.allowedClasses.includes(specialization)
+      ) {
+        return rolled;
+      }
+
+      // Preserve the drop's equipment role where possible, then reroll within the active class pool.
+      const compatible = ITEM_CATALOG.filter(
+        (item) =>
+          item.category === rolled.category &&
+          item.slot === rolled.slot &&
+          (!item.allowedClasses?.length ||
+            item.allowedClasses.includes(specialization))
+      );
+      const fallback =
+        compatible.length > 0
+          ? compatible
+          : ITEM_CATALOG.filter(
+              (item) =>
+                !item.allowedClasses?.length ||
+                item.allowedClasses.includes(specialization)
+            );
+      return findItem(fallback[Math.floor(rng() * fallback.length)].id);
+    };
+    const guaranteed = encounter.rewards.guaranteedLoot?.map(usableDrop) ?? [];
     const enemyDrops = encounter.enemies
       .map((enemy) => {
         const dropId =
           enemy.lootTable[Math.floor(rng() * enemy.lootTable.length)];
-        return findItem(dropId);
+        return usableDrop(dropId);
       })
       .slice(0, 1);
     return [...guaranteed, ...enemyDrops];
@@ -546,6 +580,7 @@ export class CombatEngine {
     return {
       round: 1,
       encounterId,
+      playerSpecialization: player.specialization,
       player: playerCombatant,
       enemies,
       turnOrder,
@@ -751,7 +786,11 @@ export class CombatEngine {
       log,
       pendingLoot:
         winner === "player"
-          ? LootService.generateEncounterLoot(encounter, seed)
+          ? LootService.generateEncounterLoot(
+              encounter,
+              seed,
+              state.playerSpecialization
+            )
           : [],
     };
     if (winner === "player") {

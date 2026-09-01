@@ -368,6 +368,7 @@ export interface CombatLogEntry {
 export interface CombatState {
   round: number;
   encounterId: QuestId;
+  playerSpecialization: Specialization;
   player: Combatant;
   enemies: Combatant[];
   turnOrder: string[];
