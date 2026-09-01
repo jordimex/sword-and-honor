@@ -893,28 +893,36 @@ h2 {
   .contract-card {
     flex: 1;
     margin: 9px 18px 6px;
-    padding: 11px 18px;
+    padding: 10px 18px;
   }
   .hero-preview {
-    height: 82px;
+    height: 128px;
+    margin-bottom: 6px;
   }
   .hero-preview img {
-    width: 42%;
+    left: 3%;
+    width: 54%;
     height: 100%;
     bottom: 0;
   }
   .contract-enemy {
-    width: 88px;
-    height: 80px;
+    right: 6%;
+    width: 142px;
+    height: 122px;
+  }
+  .versus-mark {
+    bottom: 18px;
   }
   .contract-card h2 {
-    font-size: 1.2rem;
+    margin-bottom: 3px;
+    font-size: 1.25rem;
   }
   .contract-card p {
-    font-size: 0.83rem;
+    margin-bottom: 5px;
+    font-size: 0.8rem;
   }
   .reward-line {
-    margin: 7px 0;
+    margin: 6px 0;
   }
   .fight-button {
     padding: 10px;
