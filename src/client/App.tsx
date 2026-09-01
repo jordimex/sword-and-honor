@@ -145,14 +145,14 @@ function GearIcon({
 }) {
   const weaponArt: Record<string, number> = {
     longsword: 0,
-    greatsword: 0,
-    axe: 1,
-    warhammer: 1,
-    spear: 2,
-    dagger: 2,
-    mace: 1,
-    wand: 3,
-    staff: 3,
+    greatsword: 2,
+    axe: 3,
+    warhammer: 4,
+    spear: 5,
+    mace: 6,
+    dagger: 7,
+    wand: 8,
+    staff: 9,
   };
   const artIndex =
     item.category === "shield"
@@ -176,8 +176,8 @@ function GearIcon({
   return (
     <span
       className={`gear-icon art-${artIndex} rarity-${item.rarity} ${
-        compact ? "compact" : ""
-      }`}
+        item.category === "weapon" ? "weapon-icon" : ""
+      } ${compact ? "compact" : ""}`}
       aria-label={`${item.name} visual`}
     >
       <b>+{item.upgradeLevel ?? 0}</b>
@@ -631,10 +631,28 @@ export function App() {
               <>
                 <p className="eyebrow">DUNGEON CHEST · {loot.rarity}</p>
                 <h2>{loot.name}</h2>
-                <p>
-                  Gear {loot.gearScore} · {rarityLabel(loot)}
-                  {loot.uniqueEffect ? ` · ${loot.uniqueEffect}` : ""}
-                </p>
+                <section className="loot-reveal" aria-label="Loot details">
+                  <GearIcon item={loot} />
+                  <div>
+                    <p className={`rarity-tag rarity-${loot.rarity}`}>
+                      {rarityLabel(loot)} · {loot.slot}
+                    </p>
+                    <p>{itemDescription(loot)}</p>
+                    <div className="loot-stats">
+                      <span>Gear score {loot.gearScore}</span>
+                      {itemStatLines(loot).map((line) => (
+                        <span key={line}>{line}</span>
+                      ))}
+                      {loot.affixes.map((affix) => (
+                        <span key={affix.id}>{affix.label}</span>
+                      ))}
+                    </div>
+                    <small>
+                      Usable by:{" "}
+                      {loot.allowedClasses?.join(", ") ?? "all classes"}
+                    </small>
+                  </div>
+                </section>
                 <button
                   type="button"
                   className="fight-button"
